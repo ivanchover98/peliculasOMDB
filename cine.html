@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema Paradiso</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <script>
+    let apiKey = "13d0831a";
+    var movieTitle = $("#SearchBox input[type=text]").val();
+    let apiURL = 'https://www.omdbapi.com/?apikey=13d0831a&s=batman';
+    $.ajax({
+      url: apiURL,
+      success: renderMovies
+    });
+
+    function renderMovies(response){
+      console.log(response);
+    }
+
+
+    // $(document).ready(function(){
+    //   $.getJSON(apiURL, function(data){
+    //     console.log(data);
+    //     html = "";
+    //     for(i=0;i<data.Search.length;i++){
+    //       var movieitem = data.Search[i];
+    //       html += '<div class="row col-12">'
+    //       html += '<div class="col-md-6">';
+    //       html += 'Title: ' +movieitem.Title+'<br />';
+    //       html += 'Type:' +movieitem.Type+'<br />';
+    //       html += 'Year: ' +movieitem.Year+'<br />';
+    //       html += 'Title: ' +movieitem.imdbID+'<br />';
+    //       html += '</div>'
+    //       html += '</div>'
+    //     }
+    //     $("movielist").html(html);
+    //   })
+      // data: {
+      //   apikey: apiKey;
+      //   4883fb0a-866f-4acf-8825-e4fac7bdc635
+      // }
+    // });
+  </script>
+</head>
+<body>
+<div class="container">
+  <div class="row" id="SearchBox">
+    <input type="text" placeholder="Input movie name to search"><button>Search</button>
+  </div>
+  <div id="movielist" class="row"></div>
+</div>
+</body>
+
+
+</html>

@@ -1,18 +1,17 @@
 <!--Validaciones-->
-<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--Las validaciones hacen uso de una libreria/módulo de JQuery que me permite validar la información-->
-<!--Además, he utilizado las herramientas de validación que nos brinda HTML para poder verificar que lo que se escribe-->
-<!--son números, y no carácteres tipo String o especiales.-->
-<!--El único mensaje de error posible es el de "This field is required" dado las validaciones anteriores.-->
+
+<!--Hemos validado la información de una forma bastante tradicional.-->
+<!--Hemos capado el input del html para que solo se puedan escribir numeros-->
+<!--y luego le hemos indicado mediante jquery, que si el campo estava vacío,-->
+<!--nos retornará un mensaje apropiado y no nos dejará continuar.-->
 
 <!--AJAX-->
-<!--&#45;&#45;&#45;&#45;-->
+
 <!--La petición AJAX se ha realizado contra el código brindado por el professor, mediante una llamada post, para que-->
 <!--la variable "$numero" pudiera recoger el valor del input que nosotros especificamos.-->
 <!--Luego hemos decodificado dicho output de JSON a texto plano.-->
 
 <!--Palíndromo-->
-<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
 
 <!--El algoritmo del palíndromo lo hemos querido realizar con la función reverse(). Dado que el input no forma parte de un array-->
 <!--hemos debido de realizar una serie de transformaciones previas, como es el hecho de: transformar el input en array, separarlo,-->
@@ -21,9 +20,10 @@
 <!--Esto nos ha servido para poder comparar ambos inputs. El generado por la inserción que realizamos y el extraido por el proceso-->
 <!--de cambio a "reverse".-->
 
-
 <!--JQuery Effects-->
-<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--Hemos querido hacer una animación de "fadeIn" en la aparición del texto generado. Esto se ha realizado por dos motivos:-->
+<!-- - Demostrar la capacidad de control de JQuery Effects.-->
+<!-- - Que la salida de la información no se realice de forma tan agresiva.-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,29 +31,26 @@
     <meta charset="UTF-8">
     <title>Formulario primos y palindromos</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <form action="#" method="post" id="form">
       <label>Numero:</label>
-      <input name="numero" id="numero" type="number">
+      <input name="numero" id="numero" type="number" required>
     </form>
-    <button type="submit" id="enviar">Enviar</button>
+    <br>
+    <button type="submit" id="enviar">Calcular</button>
     <p id="m"></p>
 </body>
 <script>
     $(document).ready(function(){
-        $("#form").validate({
-            rules:{
-                numero: {
-                    required: true,
-                    number: true
-                }
-            }
-        });
         $("button#enviar").click(function(){
             $numero = $("input#numero").val();
             $numero_inver = $numero.toString().split("").reverse().join("");
+            $("#m").hide();
+            if($numero.length == 0){
+                $("#m").html("El campo no puede estar vacío").fadeIn("slow");
+            }
+            else{
             if($numero == $numero_inver){
                 $palindromo = "SÍ";
             }
@@ -62,12 +59,12 @@
             }
             $.post("EjercicioUD9-1AJAX.php", {numero: $numero}, function (htmlexterno){
                 var obj = $.parseJSON(htmlexterno);
-                $("#m").html($numero + " " + obj.esPrimo + " és primo y " + $palindromo + " és palindromo.").show("slow");
-
+                $("#m").html($numero + " " + obj.esPrimo + " és primo y " + $palindromo + " és palindromo." + $numero.length).fadeIn("slow");
             })
             .fail(function(){
                 alert("Los datos introducidos no son correctos");
             });
+            }
         });
     });
 </script>
